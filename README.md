@@ -2,9 +2,9 @@
 JavaFX 2048 Game.
 
 ## How to play?
-The UP(or W), DOWN(or S), RIGHT(or D), and LEFT(or A) keyboard-keys to control tiles in different directions.
+The game's objective is to slide numbered tiles on a grid to combine them to create a tile with the number 2048.
 
-The scene's arrow buttons can't be use (i'm coding on it) to control tiles.
+Controls :: The UP(or W), DOWN(or S), RIGHT(or D), and LEFT(or A) keyboard-keys to control tiles in different directions. But,thhe scene's arrow buttons can't be use (i'm coding on it) to control tiles.
 
 ## Requirements
 Java 8
