@@ -1,7 +1,7 @@
 # XpanderFX
 A JavaFX Desktop based application of [2048 Game](https://en.wikipedia.org/wiki/2048_(video_game)).
 
-## How to play? / Objectives
+## Objectives
 The game's objective is to slide numbered tiles on a grid to combine them to create a tile with the number 2048.
 
 ## Controls
