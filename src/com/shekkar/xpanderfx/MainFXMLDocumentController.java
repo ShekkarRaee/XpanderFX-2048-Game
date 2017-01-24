@@ -7,6 +7,7 @@ package com.shekkar.xpanderfx;
 
 import com.shekkar.xpanderfx.center.tile.Tile;
 import com.shekkar.xpanderfx.center.tile.TileBackground;
+import com.shekkar.xpanderfx.top.popup.Completion;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Random;
@@ -91,10 +92,10 @@ public class MainFXMLDocumentController implements Initializable {
 		RIGHT.setGraphic(this.getImage("/resources/image/right.png", 70));
 		LEFT.setGraphic(this.getImage("/resources/image/left.png", 70));
 		
-		UP.setOnMouseClicked(e -> this.buttonClicked(UP));
-		DOWN.setOnMouseClicked(e -> this.buttonClicked(DOWN));
-		LEFT.setOnMouseClicked(e -> this.buttonClicked(LEFT));
-		RIGHT.setOnMouseClicked(e -> this.buttonClicked(RIGHT));
+		UP.setOnMouseClicked(e -> this.buttonClicked(UP, KeyCode.UP));
+		DOWN.setOnMouseClicked(e -> this.buttonClicked(DOWN, KeyCode.DOWN));
+		LEFT.setOnMouseClicked(e -> this.buttonClicked(LEFT, KeyCode.LEFT));
+		RIGHT.setOnMouseClicked(e -> this.buttonClicked(RIGHT, KeyCode.RIGHT));
 		
 		UP.setOnMouseEntered(e -> this.buttonHovered(UP));
 		DOWN.setOnMouseEntered(e -> this.buttonHovered(DOWN));
@@ -187,6 +188,7 @@ public class MainFXMLDocumentController implements Initializable {
 	}
 	
 	/**
+	 * right move of tiles
 	 * @param direction 
 	 */
 	
@@ -433,6 +435,8 @@ public class MainFXMLDocumentController implements Initializable {
 		return tile == null;
 	}
 	
+	private boolean is_game_complete = false;
+	
 	/**
 	 * 
 	 * @param direction
@@ -446,8 +450,23 @@ public class MainFXMLDocumentController implements Initializable {
 		st.play();
 		st.setOnFinished(e -> {
 			to.combine(from);
+			if(!is_game_complete) {
+				if(is2048Score(to)){
+					is_game_complete = true;
+					Completion completed = new Completion(to);
+					completed.show();
+				}
+			}
 			from.remove();
 		});
+	}
+	
+	/**
+	 * The game-completion alert box
+	 * @param tile 
+	 */
+	private boolean is2048Score(Tile tile) {
+		return Integer.parseInt(tile.getText()) == 2048;
 	}
 	
 	/**
@@ -455,7 +474,7 @@ public class MainFXMLDocumentController implements Initializable {
 	 * @param event 
 	 */
 	private void keyPressedOnApp(KeyEvent event) {
-		Direction direction = new Direction(event);
+		Direction direction = new Direction(event.getCode());
 		switch (direction.getKey()) {
 			case UP:	
 				this.keyPressedAnimation(this.UP);
@@ -837,7 +856,7 @@ public class MainFXMLDocumentController implements Initializable {
 	 * 
 	 * @param b 
 	 */
-	public void buttonClicked(Button b) {
+	public void buttonClicked(Button b, KeyCode key) {
 		ScaleTransition st = new ScaleTransition(Duration.seconds(.2), b);
 		st.setFromX(.8);
 		st.setFromY(.8);
@@ -849,6 +868,18 @@ public class MainFXMLDocumentController implements Initializable {
 		ft.setFromValue(.2);
 		ft.setToValue(1);
 		ft.play();	
+		
+		boolean movable = true;
+		Direction direction = new Direction(key);
+		if(direction.getKey().equals(KeyCode.UP)) movable = this.upMove(direction);
+		if(direction.getKey().equals(KeyCode.RIGHT)) movable = this.rightMove(direction);
+		if(direction.getKey().equals(KeyCode.DOWN)) movable = this.downMove(direction);
+		if(direction.getKey().equals(KeyCode.LEFT)) movable = this.leftMove(direction);
+		if(movable) {	
+			int random_value = ((int)(new Random().nextDouble() * 10)) > 8 ? 4 : 2;
+			this.addNewTile(String.valueOf(random_value), Duration.seconds(.2));
+		}
+			
 	}
 	
 	/**
@@ -874,8 +905,7 @@ public class MainFXMLDocumentController implements Initializable {
 		FadeTransition ft = new FadeTransition(Duration.seconds(.2), b);
 		ft.setFromValue(.2);
 		ft.setToValue(1);
-		ft.play();		
-			
+		ft.play();	
 	}
 	
 	/**

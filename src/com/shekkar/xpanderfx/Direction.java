@@ -6,23 +6,20 @@
 package com.shekkar.xpanderfx;
 
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 
 /**
  *
  * @author Shekkar Raee
  */
 public class Direction {
-	private KeyEvent event;
-	
 	private KeyCode key;
 	
 	private double x_location = 0, y_location = 0;
 	private int x_tile = 0, y_tile = 0;
 	private boolean positive = true, right_key = false;
 	
-	public Direction(KeyEvent event) {
-		this.event = event;
+	public Direction(KeyCode key) {
+		this.key = key;
 		setKeyCode();
 		setLocation();
 	}
@@ -31,19 +28,19 @@ public class Direction {
 	 * Sets key-code from the key event.
 	 */
 	private void setKeyCode() {
-		if(event.getCode().equals(KeyCode.W) || event.getCode().equals(KeyCode.UP)) {
+		if(key.equals(KeyCode.W) || key.equals(KeyCode.UP)) {
 			key = KeyCode.UP;
 			right_key = true;
 		}
-		else if(event.getCode().equals(KeyCode.S) || event.getCode().equals(KeyCode.DOWN)){
+		else if(key.equals(KeyCode.S) || key.equals(KeyCode.DOWN)){
 			key = KeyCode.DOWN;
 			right_key = true;
 		}
-		else if(event.getCode().equals(KeyCode.A) || event.getCode().equals(KeyCode.LEFT)) {
+		else if(key.equals(KeyCode.A) || key.equals(KeyCode.LEFT)) {
 			key = KeyCode.LEFT;
 			right_key = true;
 		}
-		else if(event.getCode().equals(KeyCode.D) || event.getCode().equals(KeyCode.RIGHT)) {
+		else if(key.equals(KeyCode.D) || key.equals(KeyCode.RIGHT)) {
 			key = KeyCode.RIGHT;
 			right_key = true;
 		}
