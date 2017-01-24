@@ -14,7 +14,7 @@ The game's objective is to slide numbered tiles on a grid to combine them to cre
    - You can also control the tiles using the scene's arrow-buttons in different directions.
 
 ## Requirements
-Java 8
+[Java 8](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 
 ## Screenshot of XpanderFX(2048)
 ![Screenshot of XpanderFX](https://cloud.githubusercontent.com/assets/20252648/22200709/57bdce38-e188-11e6-9c51-df0cb4730729.png)
