@@ -5,10 +5,8 @@
  */
 package com.shekkar.xpanderfx.center.tile;
 
-import com.shekkar.xpanderfx.Direction;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.input.KeyCode;
 import javafx.scene.text.TextAlignment;
 
 /**
@@ -51,6 +49,13 @@ public class Tile extends Label{
 		setText(String.valueOf(sum));
 	}
 	
+	
+	/**
+	 * The game-completion alert box
+	 */
+	public boolean is2048Score() {
+		return Integer.parseInt(this.getText()) == 2048;
+	}
 	
 	/**
 	 * Converts string value to integer value

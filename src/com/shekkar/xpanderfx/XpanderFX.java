@@ -37,7 +37,7 @@ public class XpanderFX extends Application {
 		stage.setScene(scene);
 		stage.setAlwaysOnTop(true);
 		stage.initStyle(StageStyle.TRANSPARENT);		
-		stage.show();		
+		stage.show();	
 	}
 	
 	/**

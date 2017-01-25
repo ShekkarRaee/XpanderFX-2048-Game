@@ -84,7 +84,7 @@ public class MainFXMLDocumentController implements Initializable {
 	}
 
 	/**
-	 * initialize the right side of the app
+	 * Initialize the right side of the Application.
 	 */
 	private void rightSideInit() {
 		UP.setGraphic(this.getImage("/resources/image/up.png", 70));
@@ -188,6 +188,20 @@ public class MainFXMLDocumentController implements Initializable {
 	}
 	
 	/**
+	 * 
+	 * @param to 
+	 */
+	private void checkCompletion(Tile to) {		
+		if(!is_game_complete) {
+			if(to.is2048Score()){
+				is_game_complete = true;
+				Completion completed = new Completion(this, to);
+				completed.show();
+			}
+		}
+	}
+	
+	/**
 	 * right move of tiles
 	 * @param direction 
 	 */
@@ -211,6 +225,7 @@ public class MainFXMLDocumentController implements Initializable {
 						else{
 							if(current_tile.isCombinable(tiles[i][next])) {
 								tiles[i][next].combine(current_tile);
+								this.checkCompletion(tiles[i][next]);
 								TILE_BACKGROUND[i][next].setGraphic(tiles[i][next]);
 								tiles[i][j] = null;
 								TILE_BACKGROUND[i][j].setGraphic(tiles[i][j]);
@@ -236,6 +251,7 @@ public class MainFXMLDocumentController implements Initializable {
 					if(!(prevent_first_combine && j==1)) {
 						if(current_tile.isCombinable(tiles[i][next])) {
 							tiles[i][next].combine(current_tile);
+							this.checkCompletion(tiles[i][next]);
 							TILE_BACKGROUND[i][next].setGraphic(tiles[i][next]);
 							tiles[i][j] = null;
 							TILE_BACKGROUND[i][j].setGraphic(tiles[i][j]);
@@ -271,6 +287,7 @@ public class MainFXMLDocumentController implements Initializable {
 							if(current_tile.isCombinable(tiles[i][previous])) {
 								final double multiplier = j - previous;
 								tiles[i][previous].combine(current_tile);
+								this.checkCompletion(tiles[i][previous]);
 								TILE_BACKGROUND[i][previous].setGraphic(tiles[i][previous]);
 								tiles[i][j] = null;
 								TILE_BACKGROUND[i][j].setGraphic(null);
@@ -296,6 +313,7 @@ public class MainFXMLDocumentController implements Initializable {
 					if(!(prevent_first_combine && j == 2)) {
 						if(current_tile.isCombinable(tiles[i][previous])) {
 							tiles[i][previous].combine(current_tile);
+							this.checkCompletion(tiles[i][previous]);
 							TILE_BACKGROUND[i][previous].setGraphic(tiles[i][previous]);
 							tiles[i][j] = null;
 							TILE_BACKGROUND[i][j].setGraphic(tiles[i][j]);
@@ -330,6 +348,7 @@ public class MainFXMLDocumentController implements Initializable {
 						else{
 							if(current_tile.isCombinable(tiles[previous][i])) {
 								tiles[previous][i].combine(current_tile);
+								this.checkCompletion(tiles[previous][i]);
 								TILE_BACKGROUND[previous][i].setGraphic(tiles[previous][i]);
 								tiles[j][i] = null;
 								TILE_BACKGROUND[j][i].setGraphic(tiles[j][i]);
@@ -355,6 +374,7 @@ public class MainFXMLDocumentController implements Initializable {
 					if(!(prevent_first_combine && j == 2)) {
 						if(current_tile.isCombinable(tiles[previous][i])) {
 							tiles[previous][i].combine(current_tile);
+								this.checkCompletion(tiles[previous][i]);
 							TILE_BACKGROUND[previous][i].setGraphic(tiles[previous][i]);
 							tiles[j][i] = null;
 							TILE_BACKGROUND[j][i].setGraphic(tiles[j][i]);
@@ -389,6 +409,7 @@ public class MainFXMLDocumentController implements Initializable {
 						else{
 							if(current_tile.isCombinable(tiles[next][i])) {
 								tiles[next][i].combine(current_tile);
+								this.checkCompletion(tiles[next][i]);
 								TILE_BACKGROUND[next][i].setGraphic(tiles[next][i]);
 								tiles[j][i] = null;
 								TILE_BACKGROUND[j][i].setGraphic(tiles[j][i]);
@@ -414,6 +435,7 @@ public class MainFXMLDocumentController implements Initializable {
 					if(!(prevent_first_combine && j == 1)) {
 						if(current_tile.isCombinable(tiles[next][i])) {
 							tiles[next][i].combine(current_tile);
+							this.checkCompletion(tiles[next][i]);
 							TILE_BACKGROUND[next][i].setGraphic(tiles[next][i]);
 							tiles[j][i] = null;
 							TILE_BACKGROUND[j][i].setGraphic(tiles[j][i]);
@@ -443,30 +465,16 @@ public class MainFXMLDocumentController implements Initializable {
 	 * @param from
 	 * @param to 
 	 */
-	public synchronized void animateMovinement(Direction direction, Tile from, Tile to) {
+	private synchronized void animateMovinement(Direction direction, Tile from, Tile to) {
 		TranslateTransition st = new TranslateTransition(Duration.seconds(.3), from);
 		st.setFromX(0);
 		st.setToX(direction.getX_location());
 		st.play();
 		st.setOnFinished(e -> {
 			to.combine(from);
-			if(!is_game_complete) {
-				if(is2048Score(to)){
-					is_game_complete = true;
-					Completion completed = new Completion(to);
-					completed.show();
-				}
-			}
+			this.checkCompletion(to);
 			from.remove();
 		});
-	}
-	
-	/**
-	 * The game-completion alert box
-	 * @param tile 
-	 */
-	private boolean is2048Score(Tile tile) {
-		return Integer.parseInt(tile.getText()) == 2048;
 	}
 	
 	/**
