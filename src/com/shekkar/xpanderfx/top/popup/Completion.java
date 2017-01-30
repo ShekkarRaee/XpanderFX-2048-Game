@@ -56,7 +56,7 @@ public class Completion extends Stage{
 				VBoxBuilder.create().alignment(Pos.CENTER).children(
 						LabelBuilder.create()
 								.minHeight(10).build(),
-						LabelBuilder.create().text("Game Completed.  You scored 2048.")
+						LabelBuilder.create().text("Congratulation !! You won the game.")
 							.font(Font.font("", FontWeight.BOLD, FontPosture.ITALIC, 20))
 								.textFill(Color.WHITE).build(),
 						LabelBuilder.create()

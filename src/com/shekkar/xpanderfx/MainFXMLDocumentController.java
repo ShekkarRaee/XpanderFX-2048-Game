@@ -8,7 +8,10 @@ package com.shekkar.xpanderfx;
 import com.shekkar.xpanderfx.center.tile.Tile;
 import com.shekkar.xpanderfx.center.tile.TileBackground;
 import com.shekkar.xpanderfx.top.popup.Completion;
+import java.awt.Desktop;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -29,7 +32,9 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBuilder;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.HyperlinkBuilder;
 import javafx.scene.control.Label;
+import javafx.scene.control.LabelBuilder;
 import javafx.scene.control.MenuItemBuilder;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -40,6 +45,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBoxBuilder;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.VBoxBuilder;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
@@ -62,8 +68,8 @@ public class MainFXMLDocumentController implements Initializable {
 	private @FXML Label BEST, SCORE, PLUS_SCORE;	
 	private @FXML TilePane GAME_BOARD;		
 	
-	private Popup about;	
-	private VBox box;	
+	private Popup about, help;	
+	private VBox about_box, help_box;	
 	public TileBackground TILE_BACKGROUND[][];	
 	public Tile tiles[][];	
 	private BlockingQueue<Direction> moving_queues;
@@ -122,6 +128,7 @@ public class MainFXMLDocumentController implements Initializable {
 		this.EXITER.setGraphic(this.getImage("/resources/image/exit.png", 57));
 		this.MINIMISER.setGraphic(this.getImage("/resources/image/mini.png", 57));
 		about = new Popup();
+		help = new Popup();
 		
 	}
 	
@@ -662,12 +669,53 @@ public class MainFXMLDocumentController implements Initializable {
 		ContextMenu cm = new ContextMenu();
 		cm.getItems().addAll(
 			 MenuItemBuilder.create().text("New Game").onAction(e -> restart()).build(),
-			 MenuItemBuilder.create().text("Controls").build(),
-			 MenuItemBuilder.create().text("Help").build(),
-			 MenuItemBuilder.create().text("About")	.onAction(e -> this.showAboutContent()).build(),
+			 MenuItemBuilder.create().text("Help").onAction(e -> this.showHelpContent()).build(),
+			 MenuItemBuilder.create().text("About").onAction(e -> this.showAboutContent()).build(),
 			 MenuItemBuilder.create().text("Exit").onAction(e -> this.setExitAnimationToNode(this.EXITER.getScene().getRoot())).build()
 		);
 		return cm;
+	}
+	
+	/**
+	 * Help content of XpanderFX
+	 */
+	@SuppressWarnings("deprecation")
+	private void showHelpContent() {
+		try {
+			Node content = FXMLLoader.load(getClass().getResource("/com/shekkar/xpanderfx/top/popup/HelpFXML.fxml"));
+			help_box = new VBox();
+			help_box.getChildren().addAll(content,
+					HBoxBuilder.create().alignment(Pos.CENTER_LEFT)
+					.padding(new Insets(0,3,0,0))
+					.children(
+							VBoxBuilder.create().minWidth(720).alignment(Pos.CENTER_LEFT).padding(new Insets(0,0,0,10))
+									.children(
+											HyperlinkBuilder.create().text("open-source on GitHub [ShekkarRaee/XpanderFX]")
+													.onAction(e -> this.browse("https://github.com/ShekkarRaee/XpanderFX-2048-Game-JavaFX")).build(),
+											LabelBuilder.create().text("shekkar.raee@hotmail.com").build()
+									)
+							.build(),
+							ButtonBuilder.create().text("OK")
+							.minHeight(40)
+							.minWidth(70)
+							.style("-fx-base:black;"
+							+ "-fx-border-radius: 7;"
+							+ "-fx-background-radius: 7;")
+							.onAction(e -> this.popupCloser(help, help_box))
+							.font(Font.font("System", FontWeight.MEDIUM, FontPosture.REGULAR, 20))
+							.build()
+					).style("-fx-background-color:white")
+					.build()
+				 );
+			help_box.setStyle("-fx-background-color: linear-gradient(lightgrey, white, lightgrey);"
+				 + "-fx-border-color: white;"
+				 + "-fx-border-width: 1;");
+			help.getContent().add(help_box);
+		} catch (IOException ex) {
+			Logger.getLogger(MainFXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		help.show(this.ICON.getScene().getWindow(), this.getNodeMaxX() + 20, this.getNodeMaxY() + 40);
+		this.popupOpener(help_box);				
 	}
 	
 	/**
@@ -677,8 +725,8 @@ public class MainFXMLDocumentController implements Initializable {
 	private void showAboutContent() {
 		try {
 			Node content = FXMLLoader.load(getClass().getResource("/com/shekkar/xpanderfx/top/popup/AboutFXMLDocument.fxml"));
-			box = new VBox();
-			box.getChildren().addAll(content,
+			about_box = new VBox();
+			about_box.getChildren().addAll(content,
 					HBoxBuilder.create().alignment(Pos.CENTER_RIGHT)
 					.padding(new Insets(0,3,0,0))
 					.children(
@@ -688,22 +736,34 @@ public class MainFXMLDocumentController implements Initializable {
 					      .style("-fx-base:black;"
 						+ "-fx-border-radius: 7;"
 						+ "-fx-background-radius: 7;")
-					      .onAction(e -> this.popupCloser(about, box))
+					      .onAction(e -> this.popupCloser(about, about_box))
 					      .font(Font.font("System", FontWeight.MEDIUM, FontPosture.REGULAR, 20))
 					      .build()
 					)
 					.build()
 				 );
-			box.setStyle("-fx-background-color: linear-gradient(black, lightgrey);"
+			about_box.setStyle("-fx-background-color: linear-gradient(black, lightgrey);"
 				 + "-fx-background-radius: 7;"
 				 + "-fx-border-radius: 7;");
-			about.getContent().add(box);
+			about.getContent().add(about_box);
 		} catch (IOException ex) {
 			Logger.getLogger(MainFXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
 		}
 		about.show(this.ICON.getScene().getWindow(), this.getNodeMaxX() - 14, this.getNodeMaxY() + 12);
-		this.popupOpener(box);		
+		this.popupOpener(about_box);		
 	}
+	
+	/**
+	 * opens browser with provided url
+	 */
+	private void browse(String url) {	
+		try {
+			Desktop.getDesktop().browse(new URI(url));
+		} catch (IOException | URISyntaxException ex) {
+			Logger.getLogger(MainFXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+	
 	
 	/**
 	 * 
@@ -776,7 +836,10 @@ public class MainFXMLDocumentController implements Initializable {
 	 */
 	private void setExitAnimationToNode(Node root) {
 		if(about.isShowing()) {
-			this.popupCloser(about, box);
+			this.popupCloser(about, about_box);
+		}
+		if(help.isShowing()) {
+			this.popupCloser(help, help_box);
 		}
 		ScaleTransition st = new ScaleTransition(Duration.seconds(.4), root);
 		st.setToX(0);
