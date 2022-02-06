@@ -1,5 +1,6 @@
 package com.shekharrai.xpanderfx;
 
+import com.shekharrai.xpanderfx.fxml.controller.XpanderFXController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -22,8 +23,10 @@ public class XpanderFX extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         URL location = getClass().getResource("/resources/fxml/xpanderfx.fxml");
-        Parent root = FXMLLoader.load(location);
-
+        FXMLLoader loader = new FXMLLoader(location);
+        Parent root = loader.load();
+        XpanderFXController controller = loader.getController();
+        controller.setApplication(this);
         root.setOnMouseDragged(e -> this.dragStage(e, stage));
         root.setOnMouseMoved(e -> this.calculateGap(e, stage));
 

@@ -1,5 +1,6 @@
 package com.shekharrai.xpanderfx.fxml.controller;
 
+import com.shekharrai.xpanderfx.XpanderFX;
 import com.shekharrai.xpanderfx.control.Direction;
 import com.shekharrai.xpanderfx.control.GameCompletePopup;
 import com.shekharrai.xpanderfx.score.ScoreProperties;
@@ -15,8 +16,6 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -33,10 +32,7 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.awt.*;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.Random;
@@ -69,6 +65,7 @@ public class XpanderFXController implements Initializable {
     private boolean isGameComplete = false;
     private TileBackground tileBackgrounds[][];
     private Tile tiles[][];
+    private XpanderFX app;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -570,7 +567,7 @@ public class XpanderFXController implements Initializable {
                                     VBoxBuilder.create().minWidth(720).alignment(Pos.CENTER_LEFT).padding(new Insets(0, 0, 0, 10))
                                             .children(
                                                     HyperlinkBuilder.create().text("open-source on GitHub [shekharrai/XpanderFX]")
-                                                            .onAction(e -> this.browse("https://github.com/shekhar/XpanderFX")).build(),
+                                                            .onAction(e -> this.browse("https://github.com/shekharrai/XpanderFX")).build(),
                                                     LabelBuilder.create().text("shekhar.rai.2053@gmail.com").build()
                                             )
                                             .build(),
@@ -630,11 +627,7 @@ public class XpanderFXController implements Initializable {
     }
 
     private void browse(String url) {
-        try {
-            Desktop.getDesktop().browse(new URI(url));
-        } catch (IOException | URISyntaxException ex) {
-            Logger.getLogger(XpanderFXController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        app.getHostServices().showDocument(url);
     }
 
     public void iconHovered(MouseEvent event) {
@@ -781,5 +774,9 @@ public class XpanderFXController implements Initializable {
 
     private double getNodeMaxX() {
         return this.ICON.localToScreen(this.ICON.getBoundsInLocal()).getMaxX();
+    }
+
+    public void setApplication(XpanderFX app) {
+        this.app = app;
     }
 }
