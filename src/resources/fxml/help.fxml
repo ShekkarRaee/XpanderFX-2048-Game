@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" prefHeight="397.0" prefWidth="791.0"
+            xmlns="http://javafx.com/javafx/8.0.101" fx:controller="com.shekharrai.xpanderfx.fxml.controller.HelpController">
+    <children>
+        <BorderPane layoutX="212.0" layoutY="38.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <top>
+                <HBox alignment="CENTER" prefHeight="54.0" prefWidth="600.0"
+                      style="-fx-background-color: linear-gradient(black, darkslategrey);"
+                      BorderPane.alignment="CENTER">
+                    <children>
+                        <Label text="XpanderFX" textFill="#1ac606">
+                            <font>
+                                <Font name="Monotype Corsiva" size="25.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                </HBox>
+            </top>
+            <center>
+                <VBox prefHeight="347.0" prefWidth="791.0" spacing="10.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                            <children>
+                                <VBox prefHeight="277.0" prefWidth="168.0" spacing="63.0">
+                                    <children>
+                                        <Label text="KeyBoard Keys">
+                                            <font>
+                                                <Font name="Monotype Corsiva" size="16.0"/>
+                                            </font>
+                                        </Label>
+                                        <Label text="Scene's Arrow Buttons">
+                                            <font>
+                                                <Font name="Monotype Corsiva" size="17.0"/>
+                                            </font>
+                                        </Label>
+                                    </children>
+                                    <padding>
+                                        <Insets left="10.0"/>
+                                    </padding>
+                                </VBox>
+                                <VBox prefHeight="115.0" prefWidth="426.0">
+                                    <children>
+                                        <Label text="'Left', 'A'">
+                                            <font>
+                                                <Font name="System Bold" size="13.0"/>
+                                            </font>
+                                        </Label>
+                                        <Label text="'Right', 'D'">
+                                            <font>
+                                                <Font name="System Bold" size="13.0"/>
+                                            </font>
+                                        </Label>
+                                        <Label text="'Down', 'S'">
+                                            <font>
+                                                <Font name="System Bold" size="13.0"/>
+                                            </font>
+                                        </Label>
+                                        <Label text="'Top', 'W'">
+                                            <font>
+                                                <Font name="System Bold" size="13.0"/>
+                                            </font>
+                                            <VBox.margin>
+                                                <Insets bottom="10.0"/>
+                                            </VBox.margin>
+                                        </Label>
+                                        <Label text="'Left'">
+                                            <font>
+                                                <Font name="System Bold" size="13.0"/>
+                                            </font>
+                                        </Label>
+                                        <Label text="'Right'">
+                                            <font>
+                                                <Font name="System Bold" size="13.0"/>
+                                            </font>
+                                        </Label>
+                                        <Label text="'Down'">
+                                            <font>
+                                                <Font name="System Bold" size="13.0"/>
+                                            </font>
+                                        </Label>
+                                        <Label text="'Top'">
+                                            <font>
+                                                <Font name="System Bold" size="13.0"/>
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </VBox>
+                            </children>
+                        </HBox>
+                        <Label text="Game objective is to reach score 2048 or more, making tiles merged, while you can still do next step."
+                               wrapText="true">
+                            <font>
+                                <Font name="System Italic" size="13.0"/>
+                            </font>
+                            <padding>
+                                <Insets left="10.0"/>
+                            </padding>
+                        </Label>
+                        <Label prefHeight="105.0" prefWidth="790.0"
+                               text="When you are doing a game   step  (by keyboard or  scene's arrow buttons), sibling tiles with the same value are being merged into one tile of double value. Game score is therefore increased by total value of all merged tiles. Note, though, some new tiles of value 2 (probability 90%) and 4 (probability 10%) will appear. The number of new  tiles to appear before the first game step is 2 for game  4*4, 8 for game 8*8, 32 for game 16*16. For all the next game steps, the number halves to 1,4 or 16 respectively. Thus, the relative square covered by the new tiles is kept constant for all the game dimensions. So, your risk is a game field full of tiles while absence of a next step."
+                               textAlignment="JUSTIFY" wrapText="true">
+                            <padding>
+                                <Insets left="10.0" right="10.0"/>
+                            </padding>
+                            <font>
+                                <Font name="System Italic" size="13.0"/>
+                            </font>
+                        </Label>
+                        <Label text="Good Luck in making 2048 and more tile.">
+                            <padding>
+                                <Insets left="10.0" right="10.0"/>
+                            </padding>
+                            <font>
+                                <Font name="System Italic" size="13.0"/>
+                            </font>
+                        </Label>
+                    </children>
+                </VBox>
+            </center>
+        </BorderPane>
+    </children>
+</AnchorPane>

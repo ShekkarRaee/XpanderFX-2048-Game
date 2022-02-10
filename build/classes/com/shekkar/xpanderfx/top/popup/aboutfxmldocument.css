@@ -1,9 +1,0 @@
-/*
- * Empty Stylesheet file.
- */
-
-#GRID_PANE {
-    -fx-background-color: linear-gradient(green, darkslategrey, gray);
-    -fx-background-radius: 7;
-    -fx-border-radius: 7;
-}
